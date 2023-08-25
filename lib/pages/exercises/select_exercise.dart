@@ -1,4 +1,3 @@
-import 'package:fitness_app_ui/logic/cubit/choose_exercise/exercise_state.dart';
 import 'package:fitness_app_ui/logic/cubit/exercise_detail/excise_detail_state.dart';
 import 'package:fitness_app_ui/logic/cubit/exercise_detail/exercise_detail_cubit.dart';
 import 'package:fitness_app_ui/pages/exercises/show_excersice.dart';
