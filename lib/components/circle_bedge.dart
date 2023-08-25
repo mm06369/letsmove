@@ -65,7 +65,7 @@ class CircleBadge extends StatelessWidget {
                 Text(
                   subtitle!,
                   style: TextStyle(
-                    color: (color != Color.fromRGBO(255, 255, 255, 1.0))
+                    color: (color != const Color.fromRGBO(255, 255, 255, 1.0))
                         ? Colors.white
                         : Colors.blue[100],
                     fontSize: 14.0,
@@ -85,7 +85,7 @@ class TriangleClipper extends CustomPainter {
 
   TriangleClipper() {
     _paint = Paint()
-      ..color = Color.fromRGBO(231, 241, 248, 1.0)
+      ..color = const Color.fromRGBO(231, 241, 248, 1.0)
       ..style = PaintingStyle.fill;
   }
 
