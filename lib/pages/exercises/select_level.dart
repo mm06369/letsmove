@@ -1,12 +1,14 @@
+import 'package:fitness_app_ui/logic/cubit/user/user_cubit.dart';
 import 'package:fitness_app_ui/pages/exercises/components/button_row.dart';
 import 'package:fitness_app_ui/pages/exercises/components/level_button.dart';
 import 'package:flutter/material.dart';
-
-import 'exercise_detail.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SelectLevel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<UserCubit>(context).getUser();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -21,9 +23,27 @@ class SelectLevel extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    LevelButton(title: "Beginner"),
-                    LevelButton(title: 'Amateur'),
-                    LevelButton(title: "Expert")
+                    LevelButton(
+                      title: "Beginner",
+                      onPressed: (title) {
+                        BlocProvider.of<UserCubit>(context)
+                            .getUserlevel(title!);
+                      },
+                    ),
+                    LevelButton(
+                      title: 'Amateur',
+                      onPressed: (title) {
+                        BlocProvider.of<UserCubit>(context)
+                            .getUserlevel(title!);
+                      },
+                    ),
+                    LevelButton(
+                      title: "Expert",
+                      onPressed: (title) {
+                        BlocProvider.of<UserCubit>(context)
+                            .getUserlevel(title!);
+                      },
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -79,7 +99,6 @@ class SelectLevel extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                
               ],
             ),
           ),

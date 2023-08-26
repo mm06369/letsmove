@@ -18,13 +18,11 @@ class ExerciseDetailCubit extends Cubit<ExerciseDetailState> {
     emit(state.copyWith(excersiceDetailList: result, isLoading: false));
   }
 
-  removeExercises(ExerciseModel exercise) {
+  void removeExercises(ExerciseModel exercise) {
     List<ExerciseModel> tempLst = state.excersiceCheckList ?? [];
-    for (var exercises in tempLst) {
-      if (exercise.name == exercises.name) {
-        tempLst.remove(exercise);
-      }
-    }
+
+    tempLst.removeWhere((exercises) => exercise.id == exercises.id);
+
     emit(state.copyWith(excersiceCheckList: tempLst));
   }
 
@@ -48,5 +46,9 @@ class ExerciseDetailCubit extends Cubit<ExerciseDetailState> {
 
   getExercises() {
     print(state.excersiceCheckList.toString());
+  }
+
+  getListOfCheckedExercises() {
+    return state.excersiceCheckList;
   }
 }

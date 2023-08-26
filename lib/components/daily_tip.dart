@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class DailyTip extends StatelessWidget {
+  DailyTip({Key? key}) : super(key: key);
 
   final Map<String, String> element = {
     'title': '3 Main workout tips',
-    'subtitle': 'The American Council on Exercises (ACE) recently surveyed 3,000 ACE-certificated personal trainers about the best!',
+    'subtitle':
+        'The American Council on Exercises (ACE) recently surveyed 3,000 ACE-certificated personal trainers about the best!',
     'image': 'assets/images/image011.jpg',
   };
 
@@ -34,7 +36,7 @@ class DailyTip extends StatelessWidget {
         ),
         Text(
           element['title']!,
-          style: TextStyle(fontSize: 14.0),
+          style: const TextStyle(fontSize: 14.0),
         ),
         Container(
           width: width,
@@ -53,17 +55,18 @@ class DailyTip extends StatelessWidget {
             vertical: 5.0,
             horizontal: 15.0,
           ),
+          
+          decoration:const  BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+            color: Colors.lightBlue,
+          ),
           child: const Text(
             'More',
             style: TextStyle(
               color: Colors.white,
             ),
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20.0),
-            ),
-            color: Colors.lightBlue,
           ),
         ),
       ],

@@ -1,4 +1,5 @@
 import 'package:fitness_app_ui/logic/cubit/exercise_detail/exercise_detail_cubit.dart';
+import 'package:fitness_app_ui/pages/exercises/components/toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,12 +12,13 @@ class CheckBoxExerciseTile extends StatefulWidget {
   final String? gifUrl;
   final String? id;
 
-  CheckBoxExerciseTile(
-      {required this.equipment,
+  const CheckBoxExerciseTile(
+      {Key? key,
+        required this.equipment,
       required this.name,
       required this.targets,
       required this.gifUrl,
-      required this.id});
+      required this.id}):super(key: key);
 
   @override
   State<CheckBoxExerciseTile> createState() => _CheckBoxExerciseTileState();
@@ -28,7 +30,6 @@ class _CheckBoxExerciseTileState extends State<CheckBoxExerciseTile> {
   late final String targets;
   late final String? gifUrl;
   late final String? id;
-  bool _isChecked = false;
 
   @override
   void initState() {
@@ -42,6 +43,26 @@ class _CheckBoxExerciseTileState extends State<CheckBoxExerciseTile> {
 
   @override
   Widget build(BuildContext context) {
+
+    void updateExerciseList() {
+      BlocProvider.of<ExerciseDetailCubit>(context).addExercises(ExerciseModel(
+          equipment: equipment,
+          gifUrl: gifUrl,
+          id: id,
+          name: name,
+          target: targets));
+    }
+
+    void removeExerciseList() {
+      BlocProvider.of<ExerciseDetailCubit>(context).removeExercises(
+          ExerciseModel(
+              equipment: equipment,
+              gifUrl: gifUrl,
+              id: id,
+              name: name,
+              target: targets));
+    }
+
     return Container(
       width: double.infinity,
       height: 100,
@@ -61,32 +82,9 @@ class _CheckBoxExerciseTileState extends State<CheckBoxExerciseTile> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Checkbox(
-              fillColor: MaterialStateProperty.all<Color>(Colors.purple),
-              value: _isChecked,
-              onChanged: (bool? newValue) {
-                setState(() {
-                  _isChecked = newValue!;
-                });
-                if (_isChecked == true) {
-                  BlocProvider.of<ExerciseDetailCubit>(context).addExercises(
-                      ExerciseModel(
-                          equipment: equipment,
-                          gifUrl: gifUrl,
-                          id: id,
-                          name: name,
-                          target: targets));
-                }
-                if (_isChecked == false) {
-                  BlocProvider.of<ExerciseDetailCubit>(context).removeExercises(
-                      ExerciseModel(
-                          equipment: equipment,
-                          gifUrl: gifUrl,
-                          id: id,
-                          name: name,
-                          target: targets));
-                }
-              },
+            ToggleButton(
+              update: updateExerciseList,
+              remove: removeExerciseList,
             ),
             SizedBox(
               width: 280,

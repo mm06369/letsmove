@@ -4,7 +4,7 @@ class CircleBadge extends StatelessWidget {
   final Color? color;
   final String? title, subtitle;
 
-  CircleBadge({this.color, this.title, this.subtitle});
+  const CircleBadge({Key? key, this.color, this.title, this.subtitle}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class CircleBadge extends StatelessWidget {
               color: color,
               border: Border.all(
                 color: (color != const Color.fromRGBO(255, 255, 255, 1.0))
-                    ? Colors.white!
+                    ? Colors.white
                     : Colors.blue[100]!,
                 width: 3.0,
               ),

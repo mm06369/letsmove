@@ -5,8 +5,9 @@ import '../../../logic/cubit/exercise_detail/exercise_detail_cubit.dart';
 
 class CustomCounter extends StatefulWidget {
   final String exerciseName;
+  int? initialValue;
 
-  CustomCounter({required this.exerciseName});
+  CustomCounter({required this.exerciseName, this.initialValue});
 
   @override
   _CustomCounterState createState() => _CustomCounterState();
@@ -19,12 +20,15 @@ class _CustomCounterState extends State<CustomCounter> {
   // }
 
   late final String exerciseName;
-
+  int? initialValue;
   int _currentNumber = 0;
 
   @override
   void initState() {
     exerciseName = widget.exerciseName;
+    initialValue = widget.initialValue;
+    _currentNumber = initialValue ?? 0;
+
     super.initState();
   }
 

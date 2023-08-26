@@ -16,15 +16,15 @@ class BMIWidget extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text(
+                    children: const  <Widget>[
+                      Text(
                         'Your BMI: ',
                         style: TextStyle(
                           color: Color.fromRGBO(190, 130, 255, 1.0),
                           fontSize: 18.0,
                         ),
                       ),
-                     const Text("1.2")
+                    Text("1.2")
                     ],
                   ),
                 
