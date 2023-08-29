@@ -8,31 +8,33 @@ class MoreScreen extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-           Text(
-              'More',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: const [
+              Text(
+                'More',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 20.0),
-            MoreButton(text: 'Sign In'),
-            SizedBox(
-              height: 20,
-            ),
-           Text(
-              "Others",
-              style: TextStyle(fontSize: 20),
-            ),
-            MoreButton(text: 'Support'),
-            MoreButton(text: 'Eula'),
-            MoreButton(text: 'Privacy'),
-            MoreButton(text: 'Disclaimer'),
-            MoreButton(text: 'Copyright'),
-          ],
+              SizedBox(height: 20.0),
+              MoreButton(text: 'Sign In'),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                "Others",
+                style: TextStyle(fontSize: 20),
+              ),
+              MoreButton(text: 'Support'),
+              MoreButton(text: 'Eula'),
+              MoreButton(text: 'Privacy'),
+              MoreButton(text: 'Disclaimer'),
+              MoreButton(text: 'Copyright'),
+            ],
+          ),
         ),
       ),
     );

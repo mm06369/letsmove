@@ -162,7 +162,6 @@ showBottomSheetOne(BuildContext context) {
     builder: (BuildContext context) {
       BlocProvider.of<SelectExerciseCubit>(context).getExercises();
       return Container(
-        height: 1000,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           // mainAxisSize: MainAxisSize.min,
@@ -175,9 +174,9 @@ showBottomSheetOne(BuildContext context) {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 10.0),
             SizedBox(
-              height: 325,
+              height: 210,
               child: BlocBuilder<SelectExerciseCubit, SelectExerciseState>(
                 builder: (context, state) {
                   return ListView.builder(
