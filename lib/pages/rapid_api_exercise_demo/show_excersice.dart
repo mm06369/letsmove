@@ -4,7 +4,7 @@ import 'package:fitness_app_ui/data/model/exercise_model.dart';
 import 'package:fitness_app_ui/logic/cubit/display_exercise/display_exercise_state.dart';
 import 'package:fitness_app_ui/logic/cubit/display_exercise/dsiplay_exercise_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/exercise_detail/exercise_detail_cubit.dart';
-import 'package:fitness_app_ui/pages/exercises/components/pause_resume_btn.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/components/pause_resume_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

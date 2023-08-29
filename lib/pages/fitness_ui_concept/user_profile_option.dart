@@ -1,4 +1,4 @@
-import 'package:fitness_app_ui/pages/schedule_page.dart';
+import 'package:fitness_app_ui/pages/fitness_ui_concept/schedule_page.dart';
 import 'package:flutter/material.dart';
 
 class MenuPage extends StatelessWidget {

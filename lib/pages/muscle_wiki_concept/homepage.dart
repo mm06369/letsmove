@@ -1,7 +1,7 @@
 import 'package:fitness_app_ui/pages/muscle_wiki_components/switch_button.dart';
 import 'package:flutter/material.dart';
 
-import '../../../globals.dart';
+import '../../globals.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -4,7 +4,8 @@
 import 'package:fitness_app_ui/components/plan_card.dart';
 import 'package:flutter/material.dart';
 
-import '../tabs/tabs.dart';
+import 'tabs/tabs.dart';
+
 
 class SelectPlan extends StatelessWidget {
   const SelectPlan({Key? key}):super(key: key);

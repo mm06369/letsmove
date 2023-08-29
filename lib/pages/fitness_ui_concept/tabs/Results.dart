@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../components/Header.dart';
-import '../components/circle_bedge.dart';
+import '../../../components/Header.dart';
+import '../../../components/circle_bedge.dart';
 
 
 class Results extends StatelessWidget {

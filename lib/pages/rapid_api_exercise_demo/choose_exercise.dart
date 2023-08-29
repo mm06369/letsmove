@@ -1,6 +1,6 @@
 import 'package:fitness_app_ui/logic/cubit/choose_exercise/exercise_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/choose_exercise/exercise_state.dart';
-import 'package:fitness_app_ui/pages/exercises/exercise_detail.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/exercise_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connectivity_checker/internet_connectivity_checker.dart';

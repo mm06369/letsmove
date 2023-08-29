@@ -1,20 +1,18 @@
 
 
-import 'package:fitness_app_ui/pages/exercises/choose_exercise.dart';
-import 'package:fitness_app_ui/pages/schedule_page.dart';
-import 'package:fitness_app_ui/pages/user_profile_option.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/choose_exercise.dart';
 import 'package:flutter/material.dart';
-
-import '../components/Header.dart';
-import '../components/Section.dart';
-import '../components/daily_tip.dart';
-import '../components/image_card_with_basic_footer.dart';
-import '../components/image_card_with_internal.dart';
-import '../components/main_card_programs.dart';
-import '../components/user_photo.dart';
-import '../components/user_tip.dart';
-import '../models/exercise.dart';
-import '../pages/activity_detail.dart';
+import '../../../components/Header.dart';
+import '../../../components/Section.dart';
+import '../../../components/daily_tip.dart';
+import '../../../components/image_card_with_basic_footer.dart';
+import '../../../components/image_card_with_internal.dart';
+import '../../../components/main_card_programs.dart';
+import '../../../components/user_photo.dart';
+import '../../../components/user_tip.dart';
+import '../../../models/exercise.dart';
+import '../activity_detail.dart';
+import '../user_profile_option.dart';
 
 class Programs extends StatelessWidget {
   final List<Exercise> exercises = [

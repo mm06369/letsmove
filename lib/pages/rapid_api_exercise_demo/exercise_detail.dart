@@ -1,7 +1,7 @@
 import 'package:fitness_app_ui/logic/cubit/exercise_detail/excise_detail_state.dart';
 import 'package:fitness_app_ui/logic/cubit/exercise_detail/exercise_detail_cubit.dart';
-import 'package:fitness_app_ui/pages/exercises/components/check_box_exercise_tile.dart';
-import 'package:fitness_app_ui/pages/exercises/select_exercise.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/components/check_box_exercise_tile.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/select_exercise.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,6 +1,6 @@
 import 'package:fitness_app_ui/logic/cubit/user/user_cubit.dart';
-import 'package:fitness_app_ui/pages/exercises/components/button_row.dart';
-import 'package:fitness_app_ui/pages/exercises/components/level_button.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/components/button_row.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/components/level_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

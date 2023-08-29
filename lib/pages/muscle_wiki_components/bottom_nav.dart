@@ -1,5 +1,9 @@
-import 'package:fitness_app_ui/pages/muscle_wiki_concept/homepage_components/homepage.dart';
+import 'package:fitness_app_ui/pages/muscle_wiki_concept/homepage.dart';
+import 'package:fitness_app_ui/pages/muscle_wiki_concept/more_screen.dart';
+import 'package:fitness_app_ui/pages/muscle_wiki_concept/tools_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../muscle_wiki_concept/search_page.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -11,9 +15,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _tabs = [
     const HomePage(),
-    SearchTab(),
+    const SearchPage(),
     WorkoutTab(),
-    MoreTab(),
+    const ToolsScreen(),
+    const MoreScreen(),
   ];
 
   @override
@@ -22,8 +27,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
       body: _tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.orange,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
+        selectedItemColor: Colors.grey[700],
+        unselectedItemColor: Colors.grey[400],
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -34,7 +39,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: Colors.white,
             ),
             label: 'Home',
           ),
@@ -45,6 +49,10 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center),
             label: 'Workout',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.abc_outlined),
+            label: 'Tools',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.more_horiz),
@@ -59,7 +67,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Home Tab'),
     );
   }
@@ -68,7 +76,7 @@ class HomeTab extends StatelessWidget {
 class SearchTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Search Tab'),
     );
   }
@@ -77,7 +85,7 @@ class SearchTab extends StatelessWidget {
 class WorkoutTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Workout Tab'),
     );
   }
@@ -86,7 +94,7 @@ class WorkoutTab extends StatelessWidget {
 class MoreTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('More Tab'),
     );
   }

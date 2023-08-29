@@ -1,6 +1,6 @@
 
 
-import 'package:fitness_app_ui/tabs/tabs.dart';
+import 'package:fitness_app_ui/pages/fitness_ui_concept/tabs/tabs.dart';
 import 'package:flutter/material.dart';
 
 class PlanCard extends StatelessWidget {

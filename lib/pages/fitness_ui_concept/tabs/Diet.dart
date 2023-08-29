@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../components/Header.dart';
-import '../components/tab_view_base.dart';
+import '../../../components/Header.dart';
+import '../../../components/tab_view_base.dart';
 
 class Diet extends StatelessWidget {
   @override

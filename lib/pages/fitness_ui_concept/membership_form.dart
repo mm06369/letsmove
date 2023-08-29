@@ -3,8 +3,8 @@
 import 'package:fitness_app_ui/components/bmi_widget.dart';
 import 'package:fitness_app_ui/components/custom_text_field.dart';
 import 'package:fitness_app_ui/components/user_photo.dart';
-import 'package:fitness_app_ui/pages/exercises/choose_exercise.dart';
-import 'package:fitness_app_ui/pages/select_plan.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/choose_exercise.dart';
+import 'package:fitness_app_ui/pages/fitness_ui_concept/select_plan.dart';
 import 'package:flutter/material.dart';
 
 class Membershipform extends StatefulWidget{

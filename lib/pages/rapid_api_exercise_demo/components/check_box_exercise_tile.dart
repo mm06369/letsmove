@@ -1,5 +1,5 @@
 import 'package:fitness_app_ui/logic/cubit/exercise_detail/exercise_detail_cubit.dart';
-import 'package:fitness_app_ui/pages/exercises/components/toggle_button.dart';
+import 'package:fitness_app_ui/pages/rapid_api_exercise_demo/components/toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
