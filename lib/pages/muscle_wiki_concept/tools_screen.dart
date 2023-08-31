@@ -1,4 +1,6 @@
 import 'package:fitness_app_ui/pages/muscle_wiki_concept/calorie.dart';
+import 'package:fitness_app_ui/pages/muscle_wiki_concept/macro.dart';
+import 'package:fitness_app_ui/pages/muscle_wiki_concept/rep.dart';
 import 'package:flutter/material.dart';
 
 class ToolsScreen extends StatelessWidget {
@@ -42,6 +44,8 @@ class ToolsScreen extends StatelessWidget {
               icon: Icons.monitor_weight,
               text: 'Macro Calculator',
               onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const Macro()));
                 // Handle button press
               },
             ),
@@ -49,6 +53,8 @@ class ToolsScreen extends StatelessWidget {
               icon: Icons.calculate,
               text: 'One Rep Max Calculator',
               onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => Rep()));
                 // Handle button press
               },
             ),

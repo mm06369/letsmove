@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fitness_app_ui/logic/cubit/choose_exercise/exercise_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/display_exercise/dsiplay_exercise_cubit.dart';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/macro/macro_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/calorie/calorie_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/select_exercise_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/user/user_cubit.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<SelectExerciseCubit>(
               create: (context) => SelectExerciseCubit()),
           BlocProvider<CalorieCubit>(create: (context) => CalorieCubit()),
+          BlocProvider<MacroCubit>(create: (context) => MacroCubit()),
           BlocProvider<DisplayExerciseCubit>(
               create: (context) => DisplayExerciseCubit()),
           BlocProvider<ExerciseDetailCubit>(

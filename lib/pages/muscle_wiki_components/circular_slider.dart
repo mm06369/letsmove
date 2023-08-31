@@ -1,87 +1,110 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class CircularSlider extends StatefulWidget {
-  @override
-  _CircularSliderState createState() => _CircularSliderState();
-}
+import '../../globals.dart';
 
-class _CircularSliderState extends State<CircularSlider> {
-  double _angle = 0.0; // Current angle of the slider
+class CircleSliderPainter extends CustomPainter {
+  final double sliderValue;
+  final double dotRadius;
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 200,
-        height: 200,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          border: Border.all(color: Colors.orange, width: 5.0),
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            CustomPaint(
-              painter: CircularSliderPainter(_angle),
-            ),
-            Positioned(
-              left: 100 + 100 * cos(_angle),
-              top: 100 + 100 * sin(_angle),
-              child: GestureDetector(
-                onPanUpdate: (details) {
-                  setState(() {
-                    double dx = details.localPosition.dx - 100;
-                    double dy = details.localPosition.dy - 100;
-                    _angle = atan2(dy, dx);
-                  });
-                },
-                child: Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CircularSliderPainter extends CustomPainter {
-  final double angle;
-
-  CircularSliderPainter(this.angle);
+  CircleSliderPainter({
+    required this.sliderValue,
+    required this.dotRadius,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2;
-    final startAngle = -pi / 2; // Adjust to start from the top
+    final center = Offset(size.width / 2, size.height / 3);
+    final radius = min(size.width, size.height) / 4;
 
-    final paint = Paint()
-      ..color = Colors.orange
+    // Draw the circle background
+    final backgroundPaint = Paint()..color = Colors.white;
+    canvas.drawCircle(center, radius, backgroundPaint);
+
+    // Draw the circle border
+    final borderPaint = Paint()
+      ..color = Colors.orange[200]!
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 12.0
-      ..strokeCap = StrokeCap.round;
+      ..strokeWidth = 2.0;
+    canvas.drawCircle(center, radius - 1.0, borderPaint);
 
-    final endPoint = Offset(
-      center.dx + radius * cos(angle),
-      center.dy + radius * sin(angle),
-    );
+    // Calculate the angle of the dot
+    final angle = 2 * pi * sliderValue - pi / 2;
+    final dotX = center.dx + radius * cos(angle);
+    final dotY = center.dy + radius * sin(angle);
 
-    canvas.drawCircle(center, radius, paint);
-    canvas.drawLine(center, endPoint, paint);
+    // Draw the draggable dot
+    final dotPaint = Paint()..color = Colors.orange;
+    canvas.drawCircle(Offset(dotX, dotY), dotRadius, dotPaint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+}
+
+class CircleSlider extends StatefulWidget {
+  @override
+  _CircleSliderState createState() => _CircleSliderState();
+}
+
+class _CircleSliderState extends State<CircleSlider> {
+  double _sliderValue = 0.0;
+
+  void _updateSliderValue(double newValue) {
+    setState(() {
+      _sliderValue = newValue;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        GestureDetector(
+          onPanUpdate: (details) {
+            // Calculate the angle of the drag
+            final center = MediaQuery.of(context).size.width / 2;
+            final dx = details.localPosition.dx - center;
+            final dy = details.localPosition.dy - center;
+            final angle = atan2(dy, dx) + pi / 2;
+
+            // Calculate the new slider value based on the angle
+            // final newValue = (angle / (2 * pi)) * 100.0;
+            final normalizedValue = angle / (2 * pi);
+            final newValue = (normalizedValue * 300).clamp(0.0, 300.0);
+            _updateSliderValue(newValue);
+
+            // _updateSliderValue(newValue.clamp(0.0, 100.0));
+            print(newValue);
+          },
+          child: CustomPaint(
+            painter: CircleSliderPainter(
+              sliderValue: _sliderValue / 100.0,
+              dotRadius: 8.0,
+            ),
+            child: Container(),
+          ),
+        ),
+        Positioned(
+          top: Globals.getDeviceHeight(context) * 0.13,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Weight (lbs)',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                _sliderValue.toStringAsFixed(1), // Display one decimal place
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
