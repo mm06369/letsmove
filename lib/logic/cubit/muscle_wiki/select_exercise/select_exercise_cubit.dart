@@ -2,32 +2,23 @@ import 'package:bloc/bloc.dart';
 import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/select_excercise_state.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../database_helper.dart';
+
 class SelectExerciseCubit extends Cubit<SelectExerciseState> {
   SelectExerciseCubit()
-      : super(SelectExerciseState(exerciseSelected: "Featured"));
+      : super(SelectExerciseState(exerciseSelected: "Body weight", exercises: [], muscles: []));
 
   updateSelectedExercise(String excersice) {
+    getExercises(excersice);
     emit(state.copyWith(exerciseSelected: excersice));
   }
+  
 
-  getExercises() {
-    final categories = [
-      'Favorites',
-      'Featured',
-      'Stretches',
-      'Bodyweight',
-      'Barbell',
-      'Dumbbells',
-      'Cables',
-      'Kettlebells',
-      'Band',
-      'TRX',
-      'Plate',
-      'Yoga',
-      'Machine'
-    ];
+  getBodyPartsAndEquipments() async {
 
-    final IconsList = [
+    // final cat = ['Abdominals', 'Biceps', 'Calves', 'Chest', 'Forearms'];
+
+    final iconsList = [
       Icons.favorite,
       Icons.star,
       Icons.accessibility,
@@ -43,11 +34,24 @@ class SelectExerciseCubit extends Cubit<SelectExerciseState> {
       Icons.games,
     ];
 
-    emit(state.copyWith(exercises: categories, icons: IconsList));
+    var db = await DatabaseHelper.instance.database;
+    var data = await db.rawQuery("SELECT DISTINCT equipment, bodyPart from excersieTable");
+    List<String> equipmentNames = data.map((map) => map['equipment'] as String).toList();
+    equipmentNames.removeAt(0);
+    equipmentNames.insert(0, 'Featured');
+    equipmentNames = equipmentNames.toSet().toList();
+    List<String> muscles = data.map((map) => map['bodyPart'] as String).toList();
+    muscles.removeAt(0);
+    muscles = muscles.toSet().toList();
+    emit(state.copyWith(exercises: equipmentNames, muscles: muscles, icons: iconsList));
+  
   }
 
-  getMuscles() {
-    final muscle = ['Abdominals', 'Biceps', 'Calves', 'Chest', 'Forearms'];
-    emit(state.copyWith(muscles: muscle));
+  getExercises(String category) async {
+    debugPrint("Get Exercises called");
+    var db = await DatabaseHelper.instance.database;
+    var data = await db.rawQuery("SELECT * from excersieTable where bodyPart = 'Body Weight'");
+    print(data.toList());
   }
+
 }

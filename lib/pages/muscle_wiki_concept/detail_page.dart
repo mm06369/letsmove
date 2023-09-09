@@ -1,11 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/detail/detail_cubit.dart';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/detail/detail_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<DetailCubit>(context).addURL(
+        'https://gymvisual.com/modules/productmedia/uploads/73501201preview.mp4');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
@@ -16,15 +22,15 @@ class DetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'Machine Leg Extension',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Row(
-                  children: const [
+                  children: [
                     Icon(Icons.star),
                     SizedBox(width: 8),
                     Icon(Icons.notes),
@@ -33,65 +39,38 @@ class DetailPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Wrap(
+            const Wrap(
               spacing: 4,
-              children: const [
+              children: [
                 Chip(label: Text('Intermediate')),
                 Chip(label: Text('Machine')),
                 Chip(label: Text('Isolation')),
               ],
             ),
             const SizedBox(height: 16),
-            CarouselSlider(
-              options: CarouselOptions(
-                aspectRatio: 16 / 9,
-                viewportFraction: 1,
-                // autoPlay: true,
-                enlargeCenterPage: true,
-                enableInfiniteScroll: false,
-                // autoPlayInterval: Duration(seconds: 3),
-                // autoPlayAnimationDuration: Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                height: 200, // Adjust the height as needed
-              ),
-              items: [
-                Image.network('https://picsum.photos/400/200'),
-                Image.network('https://picsum.photos/400/200'),
-              ],
-            ),
-            SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.orange),
-                        shape: BoxShape.circle,
-                        color: Colors.orange,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.orange),
-                        shape: BoxShape.circle,
-                        color: Colors.orange,
-                      ),
-                    ),
-                  )
-                ],
-              ),
+            BlocBuilder<DetailCubit, DetailState>(
+              builder: (context, state) {
+                return FutureBuilder(
+                  future: state.initializeVideoPlayerFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // If the VideoPlayerController has finished initialization, use
+                      // the data it provides to limit the aspect ratio of the video.
+                      return AspectRatio(
+                        aspectRatio: state.controller!.value.aspectRatio,
+                        // Use the VideoPlayer widget to display the video.
+                        child: VideoPlayer(state.controller!),
+                      );
+                    } else {
+                      // If the VideoPlayerController is still initializing, show a
+                      // loading spinner.
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                );
+              },
             ),
             const SizedBox(height: 16),
             const _BubbleContainer(

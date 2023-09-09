@@ -1,3 +1,4 @@
+import 'package:fitness_app_ui/database_helper.dart';
 import 'package:fitness_app_ui/pages/muscle_wiki_components/switch_button.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,19 @@ class _HomePageState extends State<HomePage> {
         _imageNum = 0;
       });
     }
+  }
+
+  void getData() async {
+    await DatabaseHelper.instance.loadDatafromCsvAndAddIntoDb();
+    var dbQuery = await DatabaseHelper.instance.query();
+    print(dbQuery.toList().length);
+    print(dbQuery.toList());
+  }
+
+  @override
+  void initState(){
+    getData();
+    super.initState();
   }
 
   @override

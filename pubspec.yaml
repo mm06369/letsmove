@@ -19,6 +19,11 @@ dependencies:
   flutter_bloc: ^8.1.3
   internet_connectivity_checker: ^1.0.1
   carousel_slider: ^4.2.1
+  video_player: ^2.7.1
+  sqflite: ^2.3.0
+  path_provider: ^2.1.1
+  csv: ^5.0.2
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -42,3 +47,4 @@ flutter:
         - asset: fonts/OpenSans_SemiCondensed-Regular.ttf
   assets:
   - assets/images/
+  - assets/csv/gym_videos_name.csv

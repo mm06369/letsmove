@@ -49,7 +49,7 @@ class SearchPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: Globals.getDeviceWidth(context) * 0.44,
+                  width: Globals.getDeviceWidth(context) * 0.47,
                   child: ElevatedButton(
                     onPressed: () {
                       // Handle button press
@@ -66,21 +66,26 @@ class SearchPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.fitness_center,
-                              color: Colors.orange,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Featured',
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                        BlocBuilder<SelectExerciseCubit, SelectExerciseState>(
+                          builder: (context, state) {
+                            return Row(
+                              children: [
+                                const Icon(
+                                  Icons.fitness_center,
+                                  color: Colors.orange,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  state.exerciseSelected!,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.orange,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         const Icon(
                           Icons.keyboard_arrow_down,
@@ -91,7 +96,7 @@ class SearchPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: Globals.getDeviceWidth(context) * 0.49,
+                  width: Globals.getDeviceWidth(context) * 0.47,
                   child: ElevatedButton(
                     onPressed: () {
                       showBottomSheetTwo(context);
@@ -105,11 +110,11 @@ class SearchPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: const [
+                          children: [
                             Icon(
                               Icons.fitness_center,
                               color: Colors.grey,
@@ -118,13 +123,14 @@ class SearchPage extends StatelessWidget {
                             Text(
                               'Bodypart',
                               style: TextStyle(
+                                fontSize: 10,
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
                         ),
-                        const Icon(
+                        Icon(
                           Icons.keyboard_arrow_down,
                           color: Colors.grey,
                         ),
@@ -137,17 +143,21 @@ class SearchPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return CustomCard();
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      height: 10,
-                    );
-                  },
-                  itemCount: 3),
+            BlocBuilder<SelectExerciseCubit, SelectExerciseState>(
+              builder: (context, state) {
+                return Expanded(
+                  child: ListView.separated(
+                      itemBuilder: (context, index) {
+                        return const CustomCard();
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemCount: 3),
+                );
+              },
             )
           ],
         ),
@@ -160,7 +170,7 @@ showBottomSheetOne(BuildContext context) {
   return showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
-      BlocProvider.of<SelectExerciseCubit>(context).getExercises();
+      BlocProvider.of<SelectExerciseCubit>(context).getBodyPartsAndEquipments();
       return Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -176,7 +186,7 @@ showBottomSheetOne(BuildContext context) {
             ),
             const SizedBox(height: 10.0),
             SizedBox(
-              height: 210,
+              height: Globals.getDeviceHeight(context) * 0.4,
               child: BlocBuilder<SelectExerciseCubit, SelectExerciseState>(
                 builder: (context, state) {
                   return ListView.builder(
@@ -184,7 +194,8 @@ showBottomSheetOne(BuildContext context) {
                     itemCount: state.exercises?.length,
                     itemBuilder: (context, index) {
                       final category = state.exercises![index];
-                      final randomIcon = state.icons![index];
+                      final randomIcon = state
+                          .icons![(Random().nextInt(12 - 0 + 1) + 0).toInt()];
                       return ListTile(
                         onTap: () {
                           BlocProvider.of<SelectExerciseCubit>(context)
@@ -233,7 +244,7 @@ showBottomSheetOne(BuildContext context) {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       onPrimary: Colors.orange,
-                      side: BorderSide(color: Colors.orange),
+                      side: const BorderSide(color: Colors.orange),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
@@ -257,7 +268,8 @@ showBottomSheetTwo(BuildContext context) {
   return showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
-      BlocProvider.of<SelectExerciseCubit>(context).getMuscles();
+      BlocProvider.of<SelectExerciseCubit>(context).getBodyPartsAndEquipments();
+      // BlocProvider.of<SelectExerciseCubit>(context).getMuscles();
       return SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16.0),
@@ -284,9 +296,7 @@ showBottomSheetTwo(BuildContext context) {
                         children: [
                           ListTile(
                             title: Text(state.muscles![index]),
-                            onTap: () {
-                              // Handle item tap
-                            },
+                            onTap: () {},
                           ),
                           const Divider(
                             thickness: 2,
