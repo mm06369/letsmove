@@ -47,4 +47,4 @@ flutter:
         - asset: fonts/OpenSans_SemiCondensed-Regular.ttf
   assets:
   - assets/images/
-  - assets/csv/gym_videos_name.csv
+  - assets/csv/gym_videos.csv

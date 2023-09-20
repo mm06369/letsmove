@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+
+import '../../../../models/exercise_model.dart';
 
 class SelectExerciseState {
-  final String? exerciseSelected;
-  final List<String>? exercises;
+  final String? equipmentSelected;
+  final String? bodyPartSelected;
+  final List<String>? equipments;
   final List<IconData>? icons;
-  final List<String>? muscles;
+  final List<String>? bodyParts;
+  List<ExerciseModel>? exercisesDetail;
+  VideoPlayerController? controller;
+  Future<void>? initializeVideoPlayerFuture;
 
-  SelectExerciseState({this.exerciseSelected, this.exercises, this.icons, this.muscles});
+  SelectExerciseState({this.equipmentSelected, this.equipments, this.icons, this.bodyParts, this.exercisesDetail, this.controller, this.initializeVideoPlayerFuture, this.bodyPartSelected});
 
   SelectExerciseState copyWith(
-      {String? exerciseSelected,
-      List<String>? exercises,
+      {String? equipmentSelected,
+      List<String>? equipments,
       List<IconData>? icons,
-      List<String>? muscles
+      List<String>? bodyParts,
+      List<ExerciseModel>? exercisesDetail,
+        VideoPlayerController? controller,
+      String? bodyPartSelected
       }) {
     return SelectExerciseState(
-        exerciseSelected: exerciseSelected ?? this.exerciseSelected,
-        exercises: exercises ?? this.exercises,
+        equipmentSelected: equipmentSelected ?? this.equipmentSelected,
+        equipments: equipments ?? this.equipments,
         icons: icons ?? this.icons,
-        muscles: muscles ?? this.muscles
+        bodyParts: bodyParts ?? this.bodyParts,
+        exercisesDetail: exercisesDetail ?? this.exercisesDetail,
+        controller: controller ?? this.controller,
+        initializeVideoPlayerFuture: initializeVideoPlayerFuture ?? this.initializeVideoPlayerFuture,
+        bodyPartSelected: bodyPartSelected ?? this.bodyPartSelected
         );
   }
 }

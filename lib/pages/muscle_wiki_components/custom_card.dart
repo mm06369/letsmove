@@ -1,11 +1,19 @@
 import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/select_excercise_state.dart';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/select_exercise_cubit.dart';
 import 'package:fitness_app_ui/pages/muscle_wiki_concept/detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 class CustomCard extends StatefulWidget {
-  const CustomCard({Key? key}) : super(key: key);
+  
+  const CustomCard({Key? key, required this.name, required this.videoURL}) : super(key: key);
+  
+  final String name;
+  final String videoURL;
 
   @override
   State<CustomCard> createState() => _CustomCardState();
@@ -14,6 +22,8 @@ class CustomCard extends StatefulWidget {
 class _CustomCardState extends State<CustomCard> {
   int _imageNum = 0;
   Timer? _timer;
+  String name = 'NULL';
+  String? videoURL;
 
   void _startAutoPlay() {
     _timer = Timer.periodic(const Duration(seconds: 4), (timer) {
@@ -25,6 +35,10 @@ class _CustomCardState extends State<CustomCard> {
 
   @override
   void initState() {
+    name = widget.name;
+    videoURL = widget.videoURL;
+        // BlocProvider.of<SelectExerciseCubit>(context).addURL(
+        // videoURL!);
     super.initState();
     _startAutoPlay();
   }
@@ -40,7 +54,7 @@ class _CustomCardState extends State<CustomCard> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (_) => DetailPage()));
+            context, MaterialPageRoute(builder: (_) => DetailPage(name: name,videoURL: videoURL!,)));
       },
       child: Card(
         elevation: 4.0,
@@ -48,6 +62,30 @@ class _CustomCardState extends State<CustomCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // BlocBuilder<SelectExerciseCubit, SelectExerciseState>(
+            //   builder: (context, state) {
+            //     return FutureBuilder(
+            //       future: state.initializeVideoPlayerFuture,
+            //       builder: (context, snapshot) {
+            //         if (snapshot.connectionState == ConnectionState.done) {
+            //           // If the VideoPlayerController has finished initialization, use
+            //           // the data it provides to limit the aspect ratio of the video.
+            //           return AspectRatio(
+            //             aspectRatio: state.controller!.value.aspectRatio,
+            //             // Use the VideoPlayer widget to display the video.
+            //             child: VideoPlayer(state.controller!),
+            //           );
+            //         } else {
+            //           // If the VideoPlayerController is still initializing, show a
+            //           // loading spinner.
+            //           return const Center(
+            //             child: CircularProgressIndicator(),
+            //           );
+            //         }
+            //       },
+            //     );
+            //   },
+            // ),
             CarouselSlider(
               items: [
                 if (_imageNum == 0)
@@ -120,11 +158,11 @@ class _CustomCardState extends State<CustomCard> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+             Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Lorem Ipsum Title',
-                style: TextStyle(
+                name,
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),

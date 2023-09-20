@@ -7,6 +7,7 @@ class DetailCubit extends Cubit<DetailState> {
   DetailCubit() : super(DetailState());
 
   addURL(String url) {
+    print("Video url: $url");
     state.controller = VideoPlayerController.networkUrl(
       Uri.parse(
         url,
@@ -16,7 +17,7 @@ class DetailCubit extends Cubit<DetailState> {
     emit(state.copyWith(controller: state.controller));
     emit(state.copyWith(
         initializeVideoPlayerFuture: state.controller?.initialize()));
-    state.controller?.setLooping(true);
+    state.controller?.setLooping(false);
     state.controller?.play();
     emit(state.copyWith(controller: state.controller));
   }

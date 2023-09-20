@@ -21,7 +21,7 @@ class DatabaseHelper {
   static const columnEquipment = 'equipment';
   static const columnGender = 'gender';
   static const columnTarget = 'target';
-  static const columnIllustrationId = 'illustrationId';
+  static const columnVideoUrl = 'videoURL';
 
   static final DatabaseHelper instance = DatabaseHelper();
   static Database? _database;
@@ -52,7 +52,7 @@ class DatabaseHelper {
         
         Database db = await instance.database;
         // Read and parse the CSV file
-        final String csvString = await rootBundle.loadString('assets/csv/gym_videos_name.csv');
+        final String csvString = await rootBundle.loadString('assets/csv/gym_videos.csv');
         List<List<dynamic>> csvTable =
             const CsvToListConverter().convert(csvString);
 
@@ -61,24 +61,24 @@ class DatabaseHelper {
             dbTable,
             {
               columnExerciseId: row[0],
-              columnIllustrationId: row[7],
               columnName: row[1],
               columnBodyPart: row[3],
               columnEquipment: row[4],
               columnGender: row[5],
-              columnTarget: row[6]
+              columnTarget: row[6],
+              columnVideoUrl : row[8]
             },
           );
         
         debugPrint("Done adding data into database");
-
+        await prefs.setBool('csvDataImported', true);
         }
       } catch (e) {
         debugPrint("Error Fetching Database: ${e.toString()}");
       }
     }
 
-    await prefs.setBool('csvDataImported', true);
+    
 
   }
 
@@ -89,12 +89,12 @@ class DatabaseHelper {
       CREATE TABLE $dbTable (
          $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
          $columnExerciseId INTEGER,
-         $columnIllustrationId INTEGER,
          $columnName TEXT,
          $columnBodyPart TEXT,
          $columnEquipment TEXT,
          $columnGender TEXT,
-         $columnTarget TEXT
+         $columnTarget TEXT,
+         $columnVideoUrl TEXT
 
       )
       ''');

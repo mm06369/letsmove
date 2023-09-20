@@ -5,31 +5,73 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 
-class DetailPage extends StatelessWidget {
-  const DetailPage({Key? key}) : super(key: key);
+import '../../globals.dart';
+
+class DetailPage extends StatefulWidget {
+  const DetailPage({Key? key, required this.videoURL, required this.name}) : super(key: key);
+
+  final String videoURL;
+  final String name;
+
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+
+  String? videoURL;
+  Future<void>? initializeVideoPlayerFuture;
+  var controller;
+
+  @override
+  void initState(){
+    videoURL = widget.videoURL;
+    controller = VideoPlayerController.networkUrl(
+      Uri.parse(
+        videoURL! ,
+      ),
+    );
+    initializeVideoPlayerFuture = controller.initialize();
+    controller.setLooping(true);
+    controller.play();
+
+
+    super.initState();
+  }
+
+  @override
+  void dispose(){
+    controller.pause();
+    controller.dispose();
+    controller = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<DetailCubit>(context).addURL(
-        'https://gymvisual.com/modules/productmedia/uploads/73501201preview.mp4');
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: const Text('Machine Leg Extension'),
+        title: Text(widget.name),
+        
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Machine Leg Extension',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Text(
+                    widget.name,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                Row(
+                const Row(
                   children: [
                     Icon(Icons.star),
                     SizedBox(width: 8),
@@ -48,18 +90,16 @@ class DetailPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            BlocBuilder<DetailCubit, DetailState>(
-              builder: (context, state) {
-                return FutureBuilder(
-                  future: state.initializeVideoPlayerFuture,
+             FutureBuilder(
+                  future: initializeVideoPlayerFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      // If the VideoPlayerController has finished initialization, use
-                      // the data it provides to limit the aspect ratio of the video.
+                        // If the VideoPlayerController has finished initialization, use
+                        // the data it provides to limit the aspect ratio of the video.
                       return AspectRatio(
-                        aspectRatio: state.controller!.value.aspectRatio,
+                        aspectRatio: controller!.value.aspectRatio,
                         // Use the VideoPlayer widget to display the video.
-                        child: VideoPlayer(state.controller!),
+                        child: VideoPlayer(controller!),
                       );
                     } else {
                       // If the VideoPlayerController is still initializing, show a
@@ -69,8 +109,6 @@ class DetailPage extends StatelessWidget {
                       );
                     }
                   },
-                );
-              },
             ),
             const SizedBox(height: 16),
             const _BubbleContainer(
@@ -147,6 +185,55 @@ class DetailPage extends StatelessWidget {
                 ],
               ),
             ]),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: Globals.getDeviceWidth(context) * 0.8,
+              child: ElevatedButton(
+                  onPressed: () {
+                    // Add your button click logic here
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    primary: Colors.orange, // Button color
+                    padding: const EdgeInsets.all(16.0), // Padding around the button
+                  ),
+                  child: const Text(
+                    'Add to today',
+                    style: TextStyle(
+              fontSize: 12.0,
+              color: Colors.white, // Text color
+                    ),
+                  ),
+                ),
+            ),
+            InkWell(
+      onTap: () {
+        // Add your button click logic here
+      },
+      child: Container(
+        width: 50.0, // Adjust the size as needed
+        height: 50.0, // Adjust the size as needed
+        decoration: const BoxDecoration(
+          color: Colors.orange, // Button background color
+          shape: BoxShape.circle, // Circular shape
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.calendar_today,
+            color: Colors.white, // Calendar icon color
+          ),
+        ),
+      ),
+    )
           ],
         ),
       ),

@@ -70,13 +70,8 @@ class SearchPage extends StatelessWidget {
                           builder: (context, state) {
                             return Row(
                               children: [
-                                const Icon(
-                                  Icons.fitness_center,
-                                  color: Colors.orange,
-                                ),
-                                const SizedBox(width: 8),
                                 Text(
-                                  state.exerciseSelected!,
+                                  state.equipmentSelected!,
                                   style: const TextStyle(
                                     fontSize: 10,
                                     color: Colors.orange,
@@ -110,27 +105,27 @@ class SearchPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.fitness_center,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              'Bodypart',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                        BlocBuilder<SelectExerciseCubit, SelectExerciseState>(
+                          builder: (context, state) {
+                            return Row(
+                              children: [
+                                const SizedBox(width: 8),
+                                Text(
+                                  state.bodyPartSelected!,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
-                        Icon(
+                        const Icon(
                           Icons.keyboard_arrow_down,
                           color: Colors.grey,
                         ),
@@ -147,15 +142,21 @@ class SearchPage extends StatelessWidget {
               builder: (context, state) {
                 return Expanded(
                   child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        return const CustomCard();
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 10,
+                    itemCount: state.exercisesDetail!.length,
+                    itemBuilder: (context, index) {
+                      if (index != 0)
+                        return CustomCard(
+                          name: state.exercisesDetail![index].exerciseName!,
+                          videoURL: state.exercisesDetail![index].url!,
                         );
-                      },
-                      itemCount: 3),
+                      return Container();
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 10,
+                      );
+                    },
+                  ),
                 );
               },
             )
@@ -191,20 +192,18 @@ showBottomSheetOne(BuildContext context) {
                 builder: (context, state) {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: state.exercises?.length,
+                    itemCount: state.equipments?.length,
                     itemBuilder: (context, index) {
-                      final category = state.exercises![index];
-                      final randomIcon = state
-                          .icons![(Random().nextInt(12 - 0 + 1) + 0).toInt()];
+                      final category = state.equipments![index];
                       return ListTile(
                         onTap: () {
                           BlocProvider.of<SelectExerciseCubit>(context)
-                              .updateSelectedExercise(state.exercises![index]);
+                              .updateSelectedExercise(state.equipments![index],
+                                  state.bodyPartSelected!);
                         },
-                        leading: Icon(randomIcon),
                         title: Text(category),
                         trailing:
-                            state.exerciseSelected == state.exercises![index]
+                            state.equipmentSelected == state.equipments![index]
                                 ? const Icon(Icons.check)
                                 : const SizedBox(),
                       );
@@ -290,13 +289,22 @@ showBottomSheetTwo(BuildContext context) {
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: state.muscles?.length,
+                    itemCount: state.bodyParts?.length,
                     itemBuilder: (context, index) {
                       return Column(
                         children: [
                           ListTile(
-                            title: Text(state.muscles![index]),
-                            onTap: () {},
+                            title: Text(state.bodyParts![index]),
+                            trailing: state.bodyPartSelected ==
+                                    state.bodyParts![index]
+                                ? const Icon(Icons.check)
+                                : const SizedBox(),
+                            onTap: () {
+                              BlocProvider.of<SelectExerciseCubit>(context)
+                                  .updateSelectedExercise(
+                                      state.equipmentSelected!,
+                                      state.bodyParts![index]);
+                            },
                           ),
                           const Divider(
                             thickness: 2,
