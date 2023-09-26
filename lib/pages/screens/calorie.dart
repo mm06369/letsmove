@@ -1,5 +1,5 @@
 import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/calorie/calorie_cubit.dart';
-import 'package:fitness_app_ui/pages/muscle_wiki_components/circular_slider.dart';
+import 'package:fitness_app_ui/pages/components/circular_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

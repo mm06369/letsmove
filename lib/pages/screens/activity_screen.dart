@@ -1,4 +1,8 @@
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/activity/activity_cubit.dart';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/activity/activity_state.dart';
+import 'package:fitness_app_ui/pages/screens/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../globals.dart';
 
@@ -21,7 +25,9 @@ class ActivityScreen extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
         actions: [
           PopupMenuButton<String>(
@@ -173,80 +179,96 @@ class ActivityScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          SizedBox(
-            height: 245,
-            child: ListView.separated(
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return const ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  title: Text(
-                    "Standing split, right",
-                    style: TextStyle(),
-                  ),
-                  subtitle: Row(
-                    children: [
-                      Text("1 set",
-                          style: TextStyle(fontStyle: FontStyle.italic)),
-                      SizedBox(
-                        width: 10,
+          BlocBuilder<ActivityCubit, ActivityState>(
+            builder: (context, state) {
+              return SizedBox(
+                height: 350,
+                child: (state.activities!.isNotEmpty) ? ListView.separated(
+                  itemCount: state.activities!.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      title: Text(
+                        state.activities![index].name!,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontFamily: 'Poppins'),
                       ),
-                      Icon(
-                        Icons.fiber_manual_record,
-                        color: Colors.orange,
-                        size: 14, // Dot color
+                      trailing: IconButton(
+                        onPressed: (){
+                          BlocProvider.of<ActivityCubit>(context).removeFromActivites(index);
+                        },
+                        icon: const Icon(Icons.delete)),
+                      subtitle: Row(
+                        children: [
+                          Text("${state.activities![index].numSets.toString()} Set",
+                              style: const TextStyle(fontStyle: FontStyle.italic)),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(
+                            Icons.fiber_manual_record,
+                            color: Colors.orange,
+                            size: 14, // Dot color
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            state.activities![index].equipment!,
+                            style: const TextStyle(fontStyle: FontStyle.italic),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "No equipment",
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) => Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                      offset: const Offset(0, 2),
+                    );
+                  },
+                  separatorBuilder: (context, index) => Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
+                    child: const Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ) : Center(child: Column(
+                  children: [
+                    Image.asset('assets/images/exercise_illustration.jpg', width: 300,height: 300,),
+                    const Text("No Exercises selected till yet!", style: TextStyle(fontFamily: 'Poppins'),),
                   ],
-                ),
-                child: const Divider(
-                  height: 1,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
+                ),)
+              );
+            },
           ),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: const Divider(
-              height: 1,
-              color: Colors.grey,
-            ),
-          ),
+          //  Container(
+          //   decoration: BoxDecoration(
+          //     boxShadow: [
+          //       BoxShadow(
+          //         color: Colors.grey.withOpacity(0.5),
+          //         spreadRadius: 1,
+          //         blurRadius: 3,
+          //         offset: Offset(0, 2),
+          //       ),
+          //     ],
+          //   ),
+          //   child: const Divider(
+          //     height: 1,
+          //     color: Colors.grey,
+          //   ),
+          // ),
           const SizedBox(
             height: 10,
           ),
           TextButton.icon(
             onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => SearchPage()));
               // Add your button click logic here
             },
             icon: const Icon(

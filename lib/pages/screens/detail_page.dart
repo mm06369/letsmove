@@ -1,47 +1,48 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:fitness_app_ui/logic/cubit/muscle_wiki/detail/detail_cubit.dart';
-import 'package:fitness_app_ui/logic/cubit/muscle_wiki/detail/detail_state.dart';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/activity/activity_cubit.dart';
+import 'package:fitness_app_ui/models/exercise_model.dart';
+import 'package:fitness_app_ui/pages/screens/activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../globals.dart';
+import '../../models/activity_model.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key, required this.videoURL, required this.name}) : super(key: key);
+  const DetailPage({Key? key, required this.exercise}) : super(key: key);
 
-  final String videoURL;
-  final String name;
-
+  // final String videoURL;
+  // final String name;
+  final ExerciseModel exercise;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-
-  String? videoURL;
+  // String? videoURL;
+  ExerciseModel? exercise = ExerciseModel();
   Future<void>? initializeVideoPlayerFuture;
   var controller;
 
   @override
-  void initState(){
-    videoURL = widget.videoURL;
+  void initState() {
+    // videoURL = widget.videoURL;
+    exercise = widget.exercise;
     controller = VideoPlayerController.networkUrl(
       Uri.parse(
-        videoURL! ,
+        exercise!.url!,
       ),
     );
     initializeVideoPlayerFuture = controller.initialize();
     controller.setLooping(true);
     controller.play();
 
-
     super.initState();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     controller.pause();
     controller.dispose();
     controller = null;
@@ -50,12 +51,10 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: Text(widget.name),
-        
+        title: Text(exercise!.exerciseName!),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -67,8 +66,9 @@ class _DetailPageState extends State<DetailPage> {
               children: [
                 Expanded(
                   child: Text(
-                    widget.name,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    exercise!.exerciseName!,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const Row(
@@ -90,25 +90,25 @@ class _DetailPageState extends State<DetailPage> {
               ],
             ),
             const SizedBox(height: 16),
-             FutureBuilder(
-                  future: initializeVideoPlayerFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                        // If the VideoPlayerController has finished initialization, use
-                        // the data it provides to limit the aspect ratio of the video.
-                      return AspectRatio(
-                        aspectRatio: controller!.value.aspectRatio,
-                        // Use the VideoPlayer widget to display the video.
-                        child: VideoPlayer(controller!),
-                      );
-                    } else {
-                      // If the VideoPlayerController is still initializing, show a
-                      // loading spinner.
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
+            FutureBuilder(
+              future: initializeVideoPlayerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // If the VideoPlayerController has finished initialization, use
+                  // the data it provides to limit the aspect ratio of the video.
+                  return AspectRatio(
+                    aspectRatio: controller!.value.aspectRatio,
+                    // Use the VideoPlayer widget to display the video.
+                    child: VideoPlayer(controller!),
+                  );
+                } else {
+                  // If the VideoPlayerController is still initializing, show a
+                  // loading spinner.
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
             const SizedBox(height: 16),
             const _BubbleContainer(
@@ -196,44 +196,54 @@ class _DetailPageState extends State<DetailPage> {
             SizedBox(
               width: Globals.getDeviceWidth(context) * 0.8,
               child: ElevatedButton(
-                  onPressed: () {
-                    // Add your button click logic here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    primary: Colors.orange, // Button color
-                    padding: const EdgeInsets.all(16.0), // Padding around the button
+                onPressed: () {
+                                BlocProvider.of<ActivityCubit>(context).addToActivities(Activity(
+                  name: exercise!.exerciseName,
+                  equipment: exercise!.equipment,
+                  bodyPart: exercise!.bodyPart,
+                  url: exercise!.url,
+                  numSets: 1,
+                ));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => ActivityScreen()));
+                  // Add your button click logic here
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  child: const Text(
-                    'Add to today',
-                    style: TextStyle(
-              fontSize: 12.0,
-              color: Colors.white, // Text color
-                    ),
+                  primary: Colors.orange, // Button color
+                  padding:
+                      const EdgeInsets.all(16.0), // Padding around the button
+                ),
+                child: const Text(
+                  'Add to today',
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.white, // Text color
                   ),
                 ),
+              ),
             ),
             InkWell(
-      onTap: () {
-        // Add your button click logic here
-      },
-      child: Container(
-        width: 50.0, // Adjust the size as needed
-        height: 50.0, // Adjust the size as needed
-        decoration: const BoxDecoration(
-          color: Colors.orange, // Button background color
-          shape: BoxShape.circle, // Circular shape
-        ),
-        child: const Center(
-          child: Icon(
-            Icons.calendar_today,
-            color: Colors.white, // Calendar icon color
-          ),
-        ),
-      ),
-    )
+              onTap: () {
+
+              },
+              child: Container(
+                width: 50.0, // Adjust the size as needed
+                height: 50.0, // Adjust the size as needed
+                decoration: const BoxDecoration(
+                  color: Colors.orange, // Button background color
+                  shape: BoxShape.circle, // Circular shape
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.calendar_today,
+                    color: Colors.white, // Calendar icon color
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

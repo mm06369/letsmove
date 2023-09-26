@@ -1,9 +1,10 @@
-import 'package:fitness_app_ui/pages/muscle_wiki_concept/homepage.dart';
-import 'package:fitness_app_ui/pages/muscle_wiki_concept/more_screen.dart';
-import 'package:fitness_app_ui/pages/muscle_wiki_concept/tools_screen.dart';
+import 'package:fitness_app_ui/pages/screens/explore.dart';
+import 'package:fitness_app_ui/pages/screens/homepage.dart';
+import 'package:fitness_app_ui/pages/screens/more_screen.dart';
+import 'package:fitness_app_ui/pages/screens/tools_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../muscle_wiki_concept/search_page.dart';
+// import '../muscle_wiki_concept/search_page.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -11,11 +12,13 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
+
+  
   int _currentIndex = 0;
 
   final List<Widget> _tabs = [
     const HomePage(),
-    const SearchPage(),
+    Explore(),
     WorkoutTab(),
     const ToolsScreen(),
     const MoreScreen(),
@@ -27,7 +30,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       body: _tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.orange,
-        selectedItemColor: Colors.grey[700],
+        selectedItemColor: Colors.orange,
         unselectedItemColor: Colors.grey[400],
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -51,7 +54,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             label: 'Workout',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.abc_outlined),
+            icon: Icon(Icons.settings_accessibility),
             label: 'Tools',
           ),
           BottomNavigationBarItem(

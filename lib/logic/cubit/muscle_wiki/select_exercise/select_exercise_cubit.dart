@@ -17,6 +17,11 @@ class SelectExerciseCubit extends Cubit<SelectExerciseState> {
     getExercises(equipment, bodyPart);
     emit(state.copyWith(equipmentSelected: equipment, bodyPartSelected: bodyPart));
   }
+
+  updateBodyPart(String bp){
+    getExercises('Any', bp);
+    emit(state.copyWith(bodyPartSelected: bp));
+  }
   
   updateExerciseWithBodyPart(String excersice, ){
 
@@ -62,6 +67,7 @@ class SelectExerciseCubit extends Cubit<SelectExerciseState> {
 
     }
     
+    emit(state.copyWith(exercisesDetail: []));
     List<ExerciseModel> exercisesDetail = [];
     for (var exercise in data){
       exercisesDetail.add(ExerciseModel.fromJson(exercise));

@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:fitness_app_ui/logic/cubit/muscle_wiki/activity/activity_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/calorie/calorie_cubit.dart';
 import 'package:fitness_app_ui/logic/cubit/muscle_wiki/select_exercise/select_exercise_cubit.dart';
-import 'package:fitness_app_ui/pages/muscle_wiki_concept/activity_screen.dart';
+import 'package:fitness_app_ui/pages/components/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'logic/cubit/muscle_wiki/detail/detail_cubit.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider<DetailCubit>(create: (context) => DetailCubit()),
+          BlocProvider<ActivityCubit>(create: (context) => ActivityCubit()),
           BlocProvider<SelectExerciseCubit>(
               create: (context) => SelectExerciseCubit()),
           BlocProvider<CalorieCubit>(create: (context) => CalorieCubit()),
@@ -25,8 +27,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: ThemeData(backgroundColor: Colors.white),
           home: Scaffold(
-            body: ActivityScreen(),
-            // body: BottomNavigation(),
+            // body: ActivityScreen(),
+            body: BottomNavigation(),
           ),
         ));
   }

@@ -1,4 +1,4 @@
-import 'package:fitness_app_ui/pages/muscle_wiki_concept/calorie.dart';
+import 'package:fitness_app_ui/pages/screens/calorie.dart';
 import 'package:flutter/material.dart';
 
 class ToolsScreen extends StatelessWidget {
