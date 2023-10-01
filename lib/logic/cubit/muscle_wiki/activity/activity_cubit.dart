@@ -19,4 +19,17 @@ class ActivityCubit extends Cubit<ActivityState>{
     emit(state.copyWith(activities: state.activities));
   }
 
+  incrementSet(int index){
+    state.activities![index].numSets = state.activities![index].numSets! + 1;
+    emit(state.copyWith(activities: state.activities));
+  }
+
+    decrementSet(int index){
+
+    if (state.activities![index].numSets! >  0){
+      state.activities![index].numSets = state.activities![index].numSets! - 1;
+    };
+    emit(state.copyWith(activities: state.activities));
+  }
+
 }

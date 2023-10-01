@@ -1,5 +1,6 @@
 import 'package:fitness_app_ui/logic/cubit/muscle_wiki/activity/activity_cubit.dart';
 import 'package:fitness_app_ui/models/exercise_model.dart';
+import 'package:fitness_app_ui/pages/components/bottom_nav.dart';
 import 'package:fitness_app_ui/pages/screens/activity_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -205,7 +206,7 @@ class _DetailPageState extends State<DetailPage> {
                   numSets: 1,
                 ));
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => ActivityScreen()));
+                      MaterialPageRoute(builder: (_) => BottomNavigation(index: 2,)));
                   // Add your button click logic here
                 },
                 style: ElevatedButton.styleFrom(

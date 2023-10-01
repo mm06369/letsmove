@@ -1,3 +1,4 @@
+import 'package:fitness_app_ui/pages/screens/activity_screen.dart';
 import 'package:fitness_app_ui/pages/screens/explore.dart';
 import 'package:fitness_app_ui/pages/screens/homepage.dart';
 import 'package:fitness_app_ui/pages/screens/more_screen.dart';
@@ -7,6 +8,10 @@ import 'package:flutter/material.dart';
 // import '../muscle_wiki_concept/search_page.dart';
 
 class BottomNavigation extends StatefulWidget {
+  
+  int index;
+  BottomNavigation({this.index = 0});
+
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
@@ -15,14 +20,21 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   
   int _currentIndex = 0;
+  
 
   final List<Widget> _tabs = [
     const HomePage(),
     Explore(),
-    WorkoutTab(),
+    ActivityScreen(),
     const ToolsScreen(),
     const MoreScreen(),
   ];
+
+  @override
+  void initState(){
+    _currentIndex = widget.index;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

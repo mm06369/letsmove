@@ -76,5 +76,10 @@ class SelectExerciseCubit extends Cubit<SelectExerciseState> {
     emit(state.copyWith(exercisesDetail: exercisesDetail));
   }
 
+  resetEquipment(){
+    emit(state.copyWith(equipmentSelected: 'Any'));
+
+  }
+
 
 }

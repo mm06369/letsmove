@@ -14,6 +14,12 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: (){
+          Navigator.of(context).pop();
+        },),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -43,9 +49,9 @@ class SearchPage extends StatelessWidget {
                   ],
                 ),
               ),
-              ElevatedButton(onPressed: (){
-                Navigator.of(context).pop();
-              }, child: Text("Back")),
+              // ElevatedButton(onPressed: (){
+              //   Navigator.of(context).pop();
+              // }, child: Text("Back")),
               const SizedBox(
                 height: 10,
               ),
@@ -287,6 +293,7 @@ showBottomSheetOne(BuildContext context) {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
+                      BlocProvider.of<SelectExerciseCubit>(context).resetEquipment();
                       // Handle Reset button press
                     },
                     style: ElevatedButton.styleFrom(
